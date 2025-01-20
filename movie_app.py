@@ -1,5 +1,6 @@
 import statistics
 import random
+import requests
 
 
 class MovieApp:
@@ -7,6 +8,9 @@ class MovieApp:
     # Class variables
     MAX_RATING = 9.8
     MIN_RATING = 2
+    # Request variables
+    API_KEY = "1b95df6b"
+    URL = "http://www.omdbapi.com/?apikey="
 
 
     def __init__(self, storage):
@@ -52,13 +56,34 @@ class MovieApp:
         else:
             print(f"Rating movies is not less than {stats_movies['min_rating']}")
 
+    def _request_movie_API(self, movie_name):
+
+        url_search_movie_by_name = f"{MovieApp.URL}{MovieApp.API_KEY}&t={movie_name}"
+        try:
+            res_movie = requests.get(url_search_movie_by_name)
+            res_movie.raise_for_status()
+            data_movie = res_movie.json()
+            if data_movie.get("Response") == "False":
+                raise KeyError(data_movie.get('Error', 'Unknown error'))
+            return data_movie
+        except requests.exceptions.ConnectionError:
+            print("Error: Unable to connect to the API. Please check your internet connection.")
+        except requests.exceptions.Timeout:
+            print("Error: The request timed out. Please try again later.")
+        except KeyError as e:
+            print(e)
+
 
     def _command_input_new_movie(self):
         """ This function ask the values for a new movie, the focus is on interacting
         with the user to gather details and check for duplicates.
         """
         data_movies = self.storage.list_movies()
-        movie_name = get_validate_name_movie()
+        while True:
+            movie_name = get_validate_name_movie()
+            requests_data_movie = self._request_movie_API(movie_name)
+            if isinstance(requests_data_movie, dict):
+                break
         is_name_in_data_movie = False
         if len(data_movies) > 0:
             for movie in data_movies:
@@ -66,9 +91,10 @@ class MovieApp:
                     is_name_in_data_movie = True
 
         if not is_name_in_data_movie:
-            movie_year = get_validate_year()
-            movie_rating = get_validate_rating()
-            movie_poster = input("Enter a poster:")
+
+            movie_year = requests_data_movie["Year"]
+            movie_rating = requests_data_movie["imdbRating"]
+            movie_poster = requests_data_movie["Poster"]
             self.storage.add_movie(movie_name, movie_year, movie_rating, movie_poster)
             print(f"Movie {movie_name} successfully added")
         else:

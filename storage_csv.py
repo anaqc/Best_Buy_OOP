@@ -59,8 +59,9 @@ class StorageCsv(IStorage):
         title, year, rating, poster = dict_keys.split(",")
         dict_values = data_movies[1:]
         for movie_value in dict_values:
-            title_movie, year_movie, rating_movie, poster_movie = movie_value.strip().split(",")
-            list_data_movies.append({title: title_movie, year: year_movie,
+            if movie_value.find(",") > 0:
+                title_movie, year_movie, rating_movie, poster_movie = movie_value.strip().split(",")
+                list_data_movies.append({title: title_movie, year: year_movie,
                                 rating: rating_movie, poster: poster_movie})
         return list_data_movies
 
