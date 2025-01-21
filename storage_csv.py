@@ -33,13 +33,13 @@ class StorageCsv(IStorage):
         """
         with open(self.file_path, "w") as file_obj:
             if len(data) == 0:
-                file_obj.writelines(data)
+                file_obj.write(data)
             else:
                 title, year, rating, poster = data[0].keys()
-                file_obj.writelines(f"{title},{year},{rating},{poster}\n")
+                file_obj.write(f"{title},{year},{rating},{poster}\n")
                 for movie in data:
                     title_movie, year_movie, rating_movie, poster_movie = movie.values()
-                    file_obj.writelines(f"{title_movie},{year_movie},{rating_movie},"
+                    file_obj.write(f"{title_movie},{year_movie},{rating_movie},"
                                         f"{poster_movie}\n")
 
 
@@ -62,7 +62,7 @@ class StorageCsv(IStorage):
             if movie_value.find(",") > 0:
                 title_movie, year_movie, rating_movie, poster_movie = movie_value.strip().split(",")
                 list_data_movies.append({title: title_movie, year: year_movie,
-                                rating: rating_movie, poster: poster_movie})
+                                rating: rating_movie, poster.strip(): poster_movie.strip()})
         return list_data_movies
 
 

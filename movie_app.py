@@ -11,6 +11,9 @@ class MovieApp:
     # Request variables
     API_KEY = "1b95df6b"
     URL = "http://www.omdbapi.com/?apikey="
+    # content HTML
+    HTML_TEMPLATE = "_static/index_template.html"
+    NEW_FILE_PATH = "_static/index.html"
 
 
     def __init__(self, storage):
@@ -64,7 +67,7 @@ class MovieApp:
             res_movie.raise_for_status()
             data_movie = res_movie.json()
             if data_movie.get("Response") == "False":
-                raise KeyError(data_movie.get('Error', 'Unknown error'))
+                raise KeyError(f"Didn't find movie {movie_name} in the API")
             return data_movie
         except requests.exceptions.ConnectionError:
             print("Error: Unable to connect to the API. Please check your internet connection.")
@@ -79,16 +82,13 @@ class MovieApp:
         with the user to gather details and check for duplicates.
         """
         data_movies = self.storage.list_movies()
-        while True:
-            movie_name = get_validate_name_movie()
-            requests_data_movie = self._request_movie_API(movie_name)
-            if isinstance(requests_data_movie, dict):
-                break
+        movie_name = get_validate_name_movie()
+        requests_data_movie = self._request_movie_API(movie_name)
         is_name_in_data_movie = False
         if len(data_movies) > 0:
             for movie in data_movies:
                 if movie_name.lower() == movie["movie name"].lower():
-                    is_name_in_data_movie = True
+                        is_name_in_data_movie = True
 
         if not is_name_in_data_movie:
 
@@ -204,7 +204,70 @@ class MovieApp:
             print("Please enter 'Y' or 'N'")
 
     def _generate_website(self):
-        ...
+
+        data_movie = self.storage.list_movies()
+        html_content = self.read_template(MovieApp.HTML_TEMPLATE)
+        web_title = "Elisa Movie APP"
+        html_content_with_title = html_content.replace("__TEMPLATE_TITLE__", web_title)
+        output = ""
+        if len(data_movie) == 0:
+            output += self.movie_data_not_found()
+        else:
+            for movie in data_movie:
+                output += self.serialize_movie(movie)
+        new_html_content = html_content_with_title.replace("__TEMPLATE_MOVIE_GRID__", output)
+        self.write_new_content(MovieApp.NEW_FILE_PATH, new_html_content)
+        print(f"Website was successfully generated to the file {MovieApp.NEW_FILE_PATH}")
+
+
+    def write_new_content(self, file_path, content):
+        with open(file_path, "w") as f:
+            f.write(content)
+
+
+    def serialize_movie(self, movie):
+        """ This function handle a single movie serialization
+        """
+        title = movie.get('movie name')
+        year = movie.get('movie year')
+        #rating = movie.get('movie rating')
+        poster = movie.get('poster')
+        # define a empty string
+        output = ""
+        # append information for each string
+        output += "<li>\n"
+        output += "<div class='movie'>\n\n"
+        output += f"<img class='movie-poster' src={poster} title='' />"
+        output += f"<div class='movie-title'>{title}</div>"
+        output += f"<div class='movie-year'>{year}</div>"
+        output += "</div>"
+        output += "</li>"
+        return output
+
+    def movie_data_not_found(self):
+        """ This function create a new site if the data movie is clear"""
+        output = ""
+        output += "<li>\n"
+        output += "<div class='movie'>\n\n"
+        output += "<h3> Movies not Found in data </h3>\n"
+        output += "</div>"
+        output += "</li>"
+        return output
+
+
+    def read_template(self, file_path):
+        """ This. function reads an HTML template from the given file path
+        """
+        try:
+            if file_path.lower().endswith(".html"):
+                with open(file_path, "r") as handle:
+                    return handle.read().strip()
+            raise ValueError(f"{file_path} is not HTML file")
+        except ValueError as e:
+            print(e)
+        except FileNotFoundError:
+            print(f"File {file_path} not found")
+
 
     def run(self):
         # Print menu
@@ -277,7 +340,7 @@ class MovieApp:
                 "description": "sorted the movies by year"
             },
             {
-                "name": "_generate_website",
+                "name": "generate website",
                 "function": self._generate_website,
                 "description": "s_generate_website"
             }
