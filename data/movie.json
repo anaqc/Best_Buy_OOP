@@ -1,0 +1,32 @@
+[
+    {
+        "movie name": "matrix",
+        "movie year": 1993,
+        "movie rating": 7.6,
+        "poster": "https://m.media-amazon.com/images/M/MV5BM2JiZjU1NmQtNjg1Ni00NjA3LTk2MjMtNjYxMTgxODY0NjRhXkEyXkFqcGc@._V1_SX300.jpg"
+    },
+    {
+        "movie name": "luna",
+        "movie year": 1979,
+        "movie rating": 6.4,
+        "poster": "https://m.media-amazon.com/images/M/MV5BNjVlNTE0M2UtNDVmMS00ODkxLWIyZDYtN2NlMDA4M2ZlZThjXkEyXkFqcGc@._V1_SX300.jpg"
+    },
+    {
+        "movie name": "blade",
+        "movie year": 1998,
+        "movie rating": 7.1,
+        "poster": "https://m.media-amazon.com/images/M/MV5BNzAzMmY3OWMtNDgyMS00Y2U4LTlmM2UtY2YwMmM0MDI5ODJmXkEyXkFqcGc@._V1_SX300.jpg"
+    },
+    {
+        "movie name": "barbie",
+        "movie year": 2023,
+        "movie rating": 10.0,
+        "poster": "https://m.media-amazon.com/images/M/MV5BYjI3NDU0ZGYtYjA2YS00Y2RlLTgwZDAtYTE2YTM5ZjE1M2JlXkEyXkFqcGc@._V1_SX300.jpg"
+    },
+    {
+        "movie name": "grinch",
+        "movie year": 2018,
+        "movie rating": 4.9,
+        "poster": "https://m.media-amazon.com/images/M/MV5BOGU1NWQ2MmItODQ4MS00NGU5LTgwMGUtMzNmOGI5MzhhYmRlXkEyXkFqcGdeQXVyOTEwMDkxMTY@._V1_SX300.jpg"
+    }
+]

@@ -1,6 +1,12 @@
 import statistics
 import random
 import requests
+import os
+from dotenv import load_dotenv
+
+
+# Load Environment Variables
+load_dotenv()
 
 
 class MovieApp:
@@ -9,11 +15,11 @@ class MovieApp:
     MAX_RATING = 9.8
     MIN_RATING = 2
     # Request variables
-    API_KEY = "1b95df6b"
+    API_KEY = os.getenv("API_KEY")
     URL = "http://www.omdbapi.com/?apikey="
     # content HTML
-    HTML_TEMPLATE = "_static/index_template.html"
-    NEW_FILE_PATH = "_static/index.html"
+    HTML_TEMPLATE = "static/index_template.html"
+    NEW_FILE_PATH = "static/index.html"
 
 
     def __init__(self, storage):
@@ -342,7 +348,7 @@ class MovieApp:
             {
                 "name": "generate website",
                 "function": self._generate_website,
-                "description": "s_generate_website"
+                "description": "generate website"
             }
         ]
         return menu

@@ -1,8 +1,8 @@
-from istorage import IStorage
-import json
+from storage.istorage import IStorage
 
 
-class StorageJson(IStorage):
+
+class StorageCsv(IStorage):
     def __init__(self, file_path):
         self._file_path = file_path
 
@@ -19,27 +19,28 @@ class StorageJson(IStorage):
 
     def read_movies_data(self):
         """
-        This function reads all the data from movies_data.json and returns it.
+        This function reads all the data from _file_path and returns it.
         """
         try:
             with open(self.file_path, "r") as file_obj:
-                return json.loads(file_obj.read())
+                return file_obj.readlines()
         except FileNotFoundError:
-            return []
-        except json.JSONDecodeError:
-            print(f"Error: The file {self.file_path} contains invalid JSON.")
-            return []  # Return an empty list if the JSON is invalid
-        except Exception as e:
-            print(f"An unexpected error occurred while reading the file: {e}")
             return []
 
 
     def write_movies_data(self, data):
         """ This function write the data from movies_data
         """
-        json_str = json.dumps(data, indent=4)
         with open(self.file_path, "w") as file_obj:
-            return file_obj.write(json_str)
+            if len(data) == 0:
+                file_obj.write(data)
+            else:
+                title, year, rating, poster = data[0].keys()
+                file_obj.write(f"{title},{year},{rating},{poster}\n")
+                for movie in data:
+                    title_movie, year_movie, rating_movie, poster_movie = movie.values()
+                    file_obj.write(f"{title_movie},{year_movie},{rating_movie},"
+                                        f"{poster_movie}\n")
 
 
     def list_movies(self):
@@ -48,10 +49,21 @@ class StorageJson(IStorage):
 
         The function loads the information from the JSON
         file and returns the data. """
+
         data_movies = self.read_movies_data()
+        list_data_movies = []
         if len(data_movies) == 0:
-            print(f"{self.file_path} is clear")
-        return data_movies
+            return list_data_movies
+        # First line for the dictionary keys
+        dict_keys = data_movies[0]
+        title, year, rating, poster = dict_keys.split(",")
+        dict_values = data_movies[1:]
+        for movie_value in dict_values:
+            if movie_value.find(",") > 0:
+                title_movie, year_movie, rating_movie, poster_movie = movie_value.strip().split(",")
+                list_data_movies.append({title: title_movie, year: int(year_movie),
+                                rating: float(rating_movie), poster.strip(): poster_movie.strip()})
+        return list_data_movies
 
 
     def add_movie(self, title, year, rating, poster):
@@ -61,7 +73,7 @@ class StorageJson(IStorage):
         """
         data_movies = self.list_movies()
         data_movies.append({"movie name": title, "movie year": year,
-                            "movie rating": rating, "poster": poster})
+                            "movie rating": float(rating), "poster": poster})
         self.write_movies_data(data_movies)
 
 
@@ -103,5 +115,3 @@ class StorageJson(IStorage):
         if not is_update:
             print(f"Movie {title} doesn't exist!")
         self.write_movies_data(new_data_movies)
-
-
