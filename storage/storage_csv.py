@@ -97,7 +97,7 @@ class StorageCsv(IStorage):
         self.write_movies_data(data_movies)
 
 
-    def update_movie(self, title, rating):
+    def update_movie(self, title, rating, notes):
         """
         Updates a movie from the movies database.
         Loads the information from the JSON file, updates the movie,
@@ -109,6 +109,7 @@ class StorageCsv(IStorage):
         for movie in data_movies:
             if title.lower() == movie["movie name"].lower():
                 movie["movie rating"] = rating
+                movie["movie note"] = notes
                 is_update = True
                 print(f"The movie {title} successfully updated")
             new_data_movies.append(movie)

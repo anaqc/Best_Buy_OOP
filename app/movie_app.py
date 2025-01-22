@@ -91,20 +91,21 @@ class MovieApp:
         movie_name = get_validate_name_movie()
         requests_data_movie = self._request_movie_API(movie_name)
         is_name_in_data_movie = False
-        if len(data_movies) > 0:
-            for movie in data_movies:
-                if movie_name.lower() == movie["movie name"].lower():
-                        is_name_in_data_movie = True
+        if requests_data_movie != None:
+            if len(data_movies) > 0:
+                for movie in data_movies:
+                    if movie_name.lower() == movie["movie name"].lower():
+                            is_name_in_data_movie = True
 
-        if not is_name_in_data_movie:
-
-            movie_year = requests_data_movie["Year"]
-            movie_rating = requests_data_movie["imdbRating"]
-            movie_poster = requests_data_movie["Poster"]
-            self.storage.add_movie(movie_name, movie_year, movie_rating, movie_poster)
-            print(f"Movie {movie_name} successfully added")
-        else:
-            print(f"Movie {movie_name} already exist!")
+            if not is_name_in_data_movie:
+                movie_title = requests_data_movie["Title"]
+                movie_year = requests_data_movie["Year"]
+                movie_rating = requests_data_movie["imdbRating"]
+                movie_poster = requests_data_movie["Poster"]
+                self.storage.add_movie(movie_title, movie_year, movie_rating, movie_poster)
+                print(f"Movie {movie_name} successfully added")
+            else:
+                print(f"Movie {movie_name} already exist!")
 
 
     def _command_input_delete_movie(self):
@@ -119,7 +120,8 @@ class MovieApp:
         """
         name_movie = input("Enter movie name: ")
         new_rating = get_validate_rating()
-        self.storage.update_movie(name_movie, new_rating)
+        movie_notes = input("Enter Movie note: ")
+        self.storage.update_movie(name_movie, new_rating, movie_notes)
 
 
     def _get_stats(self):
@@ -385,7 +387,7 @@ def get_validate_rating():
     """
     while True:
         try:
-            movie_rating = float(input("Enter new movie rating "))
+            movie_rating = float(input("Enter new movie rating: "))
             break
         except ValueError:
             print("Please enter a valid rating")

@@ -29,7 +29,9 @@ A Python-based command-line application that allows users to search, store, and 
 
 ## Usage
 
-1. To use this project, run the following command - `python main.py`.
+1. To use this project, run the following command:
+   + `python3 main.py file_name.csv`.
+   + `python3 main.py file_name.json`.
 2. You can show the generate website in `index.html`.
 3. Use the menu options to:
 
