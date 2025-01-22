@@ -1,7 +1,6 @@
 from storage.istorage import IStorage
 
 
-
 class StorageCsv(IStorage):
     def __init__(self, file_path):
         self._file_path = file_path
@@ -32,15 +31,15 @@ class StorageCsv(IStorage):
         """ This function write the data from movies_data
         """
         with open(self.file_path, "w") as file_obj:
-            if len(data) == 0:
-                file_obj.write(data)
+            if len(data) == 0 or data == "":
+                file_obj.write("")
             else:
-                title, year, rating, poster = data[0].keys()
-                file_obj.write(f"{title},{year},{rating},{poster}\n")
+                title, year, rating, note, imdbID, poster = data[0].keys()
+                file_obj.write(f"{title},{year},{rating},{note},{imdbID},{poster}\n")
                 for movie in data:
-                    title_movie, year_movie, rating_movie, poster_movie = movie.values()
-                    file_obj.write(f"{title_movie},{year_movie},{rating_movie},"
-                                        f"{poster_movie}\n")
+                    file_obj.write(f"{movie.get(title)},{movie.get(year)},{movie.get(rating)},"
+                                   f"{movie.get(note,"")},{movie.get(imdbID,"")},"
+                                   f"{movie.get(poster)}\n")
 
 
     def list_movies(self):
@@ -56,24 +55,46 @@ class StorageCsv(IStorage):
             return list_data_movies
         # First line for the dictionary keys
         dict_keys = data_movies[0]
-        title, year, rating, poster = dict_keys.split(",")
+        title, year, rating, note, imdbID, poster = dict_keys.split(",")
         dict_values = data_movies[1:]
-        for movie_value in dict_values:
-            if movie_value.find(",") > 0:
-                title_movie, year_movie, rating_movie, poster_movie = movie_value.strip().split(",")
-                list_data_movies.append({title: title_movie, year: int(year_movie),
-                                rating: float(rating_movie), poster.strip(): poster_movie.strip()})
+        for movie_info in dict_values:
+            if movie_info.find(",") > 0:
+                list_movie_info = movie_info.strip().split(",")
+                title_movie = list_movie_info[0]
+                year_movie = list_movie_info[1]
+                rating_movie = list_movie_info[2]
+                note_movie = list_movie_info[3]
+                imdbID_movie = list_movie_info[4]
+                poster_movie =list_movie_info[5]
+                try:
+                    rating_movie = float(rating_movie)
+                except Exception as e:
+                    rating_movie = 0
+                list_data_movies.append({
+                    title : title_movie,
+                    year : year_movie,
+                    rating : float(rating_movie),
+                    note : note_movie,
+                    imdbID : imdbID_movie,
+                    poster.strip(): poster_movie.strip()
+                })
         return list_data_movies
 
 
-    def add_movie(self, title, year, rating, poster):
+    def add_movie(self, title, year, rating, poster, imdbID):
         """ Adds a movie to the movies database.
         Loads the information from the JSON file, add the movie,
         and saves it. The function doesn't need to validate the input.
         """
         data_movies = self.list_movies()
-        data_movies.append({"movie name": title, "movie year": year,
-                            "movie rating": float(rating), "poster": poster})
+        data_movies.append({
+            "movie name": title,
+            "movie year": year,
+            "movie rating": float(rating),
+            "movie note": "",
+            "movie imdbID":imdbID,
+            "poster": poster
+        })
         self.write_movies_data(data_movies)
 
 

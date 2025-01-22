@@ -52,14 +52,14 @@ class StorageJson(IStorage):
         return data_movies
 
 
-    def add_movie(self, title, year, rating, poster):
-        """ Adds a movie to the movies database.
+    def add_movie(self, title, year, rating, poster, imdbID):
+        """ Adds a movie to the database.
         Loads the information from the JSON file, add the movie,
         and saves it. The function doesn't need to validate the input.
         """
         data_movies = self.list_movies()
         data_movies.append({"movie name": title, "movie year": int(year),
-                            "movie rating": float(rating), "poster": poster})
+                            "movie rating": float(rating), "poster": poster, "movie imdbID":imdbID})
         self.write_movies_data(data_movies)
 
 

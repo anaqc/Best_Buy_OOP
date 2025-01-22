@@ -1,21 +1,38 @@
 [
     {
-        "movie name": "titanic",
+        "movie name": "Candy",
+        "movie year": 2006,
+        "movie rating": 7.2,
+        "poster": "https://m.media-amazon.com/images/M/MV5BYjdhNDA3MmItZDBkOC00NmEyLTljZDgtMmYyYWFmMDA1ZGRkXkEyXkFqcGc@._V1_SX300.jpg",
+        "movie imdbID": "tt0424880"
+    },
+    {
+        "movie name": "Titanic",
         "movie year": 1997,
         "movie rating": 7.9,
-        "poster": "https://m.media-amazon.com/images/M/MV5BYzYyN2FiZmUtYWYzMy00MzViLWJkZTMtOGY1ZjgzNWMwN2YxXkEyXkFqcGc@._V1_SX300.jpg"
+        "poster": "https://m.media-amazon.com/images/M/MV5BYzYyN2FiZmUtYWYzMy00MzViLWJkZTMtOGY1ZjgzNWMwN2YxXkEyXkFqcGc@._V1_SX300.jpg",
+        "movie imdbID": "tt0120338"
     },
     {
-        "movie name": "barbie",
+        "movie name": "Barbie",
         "movie year": 2023,
-        "movie rating": 10.0,
+        "movie rating": 6.8,
         "poster": "https://m.media-amazon.com/images/M/MV5BYjI3NDU0ZGYtYjA2YS00Y2RlLTgwZDAtYTE2YTM5ZjE1M2JlXkEyXkFqcGc@._V1_SX300.jpg",
-        "movie note": "My favorite movie!"
+        "movie imdbID": "tt1517268"
     },
     {
-        "movie name": "cars",
+        "movie name": "Cars",
         "movie year": 2006,
+        "movie rating": 7.3,
+        "poster": "https://m.media-amazon.com/images/M/MV5BMTg5NzY0MzA2MV5BMl5BanBnXkFtZTYwNDc3NTc2._V1_SX300.jpg",
+        "movie imdbID": "tt0317219"
+    },
+    {
+        "movie name": "The Lego Movie",
+        "movie year": 2014,
         "movie rating": 10.0,
-        "poster": "https://m.media-amazon.com/images/M/MV5BMTg5NzY0MzA2MV5BMl5BanBnXkFtZTYwNDc3NTc2._V1_SX300.jpg"
+        "poster": "https://m.media-amazon.com/images/M/MV5BMTg4MDk1ODExN15BMl5BanBnXkFtZTgwNzIyNjg3MDE@._V1_SX300.jpg",
+        "movie imdbID": "tt1490017",
+        "movie note": "my favorite movie"
     }
 ]

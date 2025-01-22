@@ -6,7 +6,7 @@ body {
 
 .list-movies-title {
   padding: 10px 0;
-  background: #009B50;
+  background: PaleVioletRed;
   color: white;
   text-align: center;
   font-size: 16pt;
@@ -31,9 +31,13 @@ body {
 }
 
 .movie-title,
-.movie-year {
+.movie-year,
+.movie-rating {
   font-size: 0.8em;
   text-align: center;
+}
+.checked {
+  color: orange;
 }
 
 .movie-title {
@@ -44,9 +48,22 @@ body {
   color: #999;
 }
 
-
 .movie-poster {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     width: 128px;
     height: 193px;
+}
+
+.movie-note {
+    opacity: 0;
+    position: absolute;
+    top: 30%;
+    background-color: PaleVioletRed;
+    color: white;
+    font-size: 0.7em;
+    padding:5px 5px;
+}
+
+.movie:hover .movie-note {
+    opacity:1;
 }
